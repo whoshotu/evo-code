@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EvolveCode Standalone Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        .fade-enter { opacity: 0; transform: translateY(10px); }
+        .fade-enter-active { opacity: 1; transform: translateY(0); transition: opacity 300ms, transform 300ms; }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen overflow-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const STAGES = {
+            KIDS: 'KIDS',
+            TWEEN: 'TWEEN',
+            TEEN: 'TEEN',
+            PRO: 'PRO'
+        };
+
+        const App = () => {
+            const [stage, setStage] = useState(() => localStorage.getItem('demo_stage') || STAGES.KIDS);
+            const [code, setCode] = useState(() => {
+                const s = localStorage.getItem('demo_code');
+                return s ? JSON.parse(s) : [];
+            });
+            const [proCode, setProCode] = useState(() => localStorage.getItem('demo_proCode') || "def castle_logic():\n    pass");
+
+            useEffect(() => localStorage.setItem('demo_stage', stage), [stage]);
+            useEffect(() => localStorage.setItem('demo_code', JSON.stringify(code)), [code]);
+            useEffect(() => localStorage.setItem('demo_proCode', proCode), [proCode]);
+
+            const evolve = () => {
+                const stages = Object.values(STAGES);
+                const idx = stages.indexOf(stage);
+                if (idx < stages.length - 1) {
+                    setStage(stages[idx + 1]);
+                    // Simulating AI translation
+                    if (stage === STAGES.KIDS) setProCode("def main():\n    for i in range(3):\n        move_forward()\n        turn_right()");
+                    if (stage === STAGES.TWEEN) setProCode("class Player:\n    def __init__(self):\n        self.x = 0\n    def move(self):\n        self.x += 1");
+                } else {
+                    setStage(STAGES.KIDS);
+                    setCode([]);
+                }
+            };
+
+            return (
+                <div className={`h-full flex flex-col ${stage === STAGES.PRO ? 'bg-[#1e1e1e] text-gray-300' : 'bg-white text-gray-800'}`}>
+                    {/* Navbar */}
+                    <div className={`p-4 shadow flex justify-between items-center ${stage === STAGES.PRO ? 'bg-[#252526] border-b border-black' : 'bg-white'}`}>
+                        <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 rounded bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">E</div>
+                            <h1 className="font-bold text-xl">EvolveCode</h1>
+                            <span className="text-xs px-2 py-1 rounded-full bg-gray-200 text-black">{stage}</span>
+                        </div>
+                        <button onClick={evolve} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow animate-pulse">
+                            {stage === STAGES.PRO ? 'Reset Demo' : '✨ Evolve Logic'}
+                        </button>
+                    </div>
+
+                    {/* Content Area */}
+                    <div className="flex-1 flex p-4 gap-4 overflow-hidden">
+                        
+                        {/* Editor / Game View */}
+                        <div className="flex-1 rounded-xl overflow-hidden relative border border-gray-300">
+                            {stage === STAGES.KIDS && (
+                                <div className="h-full bg-yellow-50 p-8 flex flex-col items-center justify-center">
+                                    <h2 className="text-4xl font-bold text-[#FF6B6B] mb-8">Build Mode 🏰</h2>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        {['⬆️ Walk', '🔄 Turn', '🔁 Loop', '✨ Magic'].map(btn => (
+                                            <button key={btn} onClick={() => setCode([...code, btn])} 
+                                                className="bg-white p-6 rounded-2xl shadow-lg text-2xl hover:scale-105 transition transform border-b-4 border-gray-200 active:border-b-0 active:translate-y-1">
+                                                {btn}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="mt-8 flex gap-2">
+                                        {code.map((c, i) => <div key={i} className="bg-blue-400 text-white px-3 py-1 rounded-full text-sm animate-bounce">{c}</div>)}
+                                    </div>
+                                </div>
+                            )}
+
+                            {stage === STAGES.TWEEN && (
+                                <div className="h-full bg-blue-50 p-8">
+                                    <h2 className="text-2xl font-bold text-blue-600 mb-4">Scratch Logic 🧩</h2>
+                                    <div className="bg-white p-4 rounded-lg shadow h-3/4 border-2 border-dashed border-gray-300">
+                                        <div className="bg-orange-400 text-white p-3 rounded w-48 mb-2 cursor-grab">On Start 🏁</div>
+                                        <div className="bg-blue-500 text-white p-3 rounded w-48 mb-2 ml-4 cursor-grab">Move 10 Steps ➡️</div>
+                                        <div className="bg-purple-500 text-white p-3 rounded w-48 mb-2 ml-4 cursor-grab">If Edge, Bounce ↩️</div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {(stage === STAGES.TEEN || stage === STAGES.PRO) && (
+                                <div className="h-full bg-[#1e1e1e] font-mono p-4 text-sm">
+                                    <div className="text-gray-500 mb-2"># main.py</div>
+                                    <textarea 
+                                        className="w-full h-full bg-transparent resize-none focus:outline-none text-green-400"
+                                        value={proCode}
+                                        onChange={(e) => setProCode(e.target.value)}
+                                    />
+                                </div>
+                            )}
+                        </div>
+
+                        {/* AI Tutor Panel */}
+                        <div className={`w-80 rounded-xl flex flex-col ${stage === STAGES.PRO ? 'bg-[#252526] text-gray-300' : 'bg-white shadow-xl'}`}>
+                            <div className="p-4 border-b border-gray-700 font-bold flex items-center gap-2">
+                                <i className="fas fa-robot text-blue-500"></i>
+                                {stage === STAGES.KIDS ? 'Buddy Bot 🤖' : 'AI Assistant'}
+                            </div>
+                            <div className="flex-1 p-4 overflow-y-auto">
+                                <div className={`p-3 rounded-lg mb-4 ${stage === STAGES.PRO ? 'bg-gray-700' : 'bg-blue-50 text-blue-800'}`}>
+                                    {stage === STAGES.KIDS && "Wow! You added a loop! That's like doing magic 3 times! 🎩✨"}
+                                    {stage === STAGES.TWEEN && "Tip: You can nest that 'If' block inside the 'Forever' loop to check it constantly."}
+                                    {stage === STAGES.TEEN && "Notice how the 'Repeat' block became a `for i in range()` loop in Python?"}
+                                    {stage === STAGES.PRO && "Analyzing complexity: Your current solution is O(n). Consider vectorization for optimization."}
+                                </div>
+                            </div>
+                            <div className="p-4 border-t border-gray-700">
+                                <input disabled placeholder="AI thinking..." className="w-full bg-transparent border border-gray-600 rounded px-3 py-2" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

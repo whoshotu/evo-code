@@ -1,0 +1,5 @@
+{
+  "name": "EvolveCode",
+  "description": "An adaptive coding platform that evolves with the user from a kids' game to a pro IDE, powered by Gemini 2.5.",
+  "requestFramePermissions": []
+}
