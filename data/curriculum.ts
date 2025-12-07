@@ -72,6 +72,21 @@ export const CURRICULUM: Record<Stage, Module[]> = {
             goalEmoji: '🌻',
             backgroundTheme: 'grass'
           }
+        },
+        {
+          id: 'k-l5',
+          title: 'Corner Zoom',
+          description: 'The flower is diagonal across the field.',
+          task: 'Use Repeat blocks to move 3 steps, turn, and move 3 steps again.',
+          solutionExplanation: 'Combining loops with turns allows efficient movement in 2D space.',
+          gridConfig: {
+            gridSize: 5,
+            startPos: [0, 0],
+            goalPos: [3, 3],
+            avatarEmoji: '🐝',
+            goalEmoji: '🌻',
+            backgroundTheme: 'grass'
+          }
         }
       ]
     }

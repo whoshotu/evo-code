@@ -1,4 +1,5 @@
 
+
 # EvolveCode Design Journal: Learning Science Architecture
 
 **Date:** 2025-05-20
@@ -38,7 +39,24 @@ The Tutor Logic is kept pure and deterministic to ensure consistency.
     *   **Failure (Specific):** System detects a known error state (e.g., hitting a wall). `getFeedbackForMistake` retrieves the specific correction.
     *   **Failure (Generic):** System falls back to a gentle nudge (often the first hint) to encourage re-reading the problem.
 
-## 4. Roadmap & Improvements
+## 4. Chat Tutor System (New)
+Implemented "Instant Feedback Loop" for Kids Stage.
+
+### Flow:
+1.  **Action:** User clicks block.
+2.  **Visualization:** Block is added to a "User Message" in the chat stream (replaces static script area).
+3.  **Simulation:** Code automatically runs (Auto-Run Bee).
+4.  **Feedback:** Tutor inserts a message *only* if a significant event occurs (Start, Success, Crash).
+
+This creates a conversational UI for coding:
+> Tutor: "Go to the flower!"
+> User: [Move] [Move]
+> (Bee moves, stops short)
+> User: [Move]
+> (Bee moves, hits flower)
+> Tutor: "Great job!"
+
+## 5. Roadmap & Improvements
 
 ### Adaptive Difficulty (ML Integration)
 *   *Current:* Linear progression.

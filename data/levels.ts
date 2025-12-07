@@ -70,5 +70,46 @@ export const KIDS_LEVELS: Record<string, LevelConfig> = {
       }
     ],
     successMessage: "Mission Accomplished! You are a master navigator!"
+  },
+  'k-l4': {
+    id: 'k-l4',
+    stage: 'kids',
+    goalText: "Use the Magic Loop to fly fast!",
+    stepHints: [
+      "The flower is far away.",
+      "The Orange 'Repeat' block moves you 3 steps at once!",
+      "You might need to add a normal 'Move' block to finish the journey."
+    ],
+    commonMistakes: [
+      {
+        id: 'UNDERSHOOT',
+        description: 'Used only repeat',
+        feedbackText: "You moved 3 steps, but you need 4! Add one more Move."
+      }
+    ],
+    successMessage: "Speedy! You used a loop to move faster!"
+  },
+  'k-l5': {
+    id: 'k-l5',
+    stage: 'kids',
+    goalText: "Zoom to the corner! Use loops for speed.",
+    stepHints: [
+      "First, zoom forward with the Repeat block.",
+      "Then turn towards the flower.",
+      "Zoom again with another Repeat block!"
+    ],
+    commonMistakes: [
+      {
+        id: 'WRONG_TURN',
+        description: 'Wrong turn',
+        feedbackText: "Check your turn direction!"
+      },
+      {
+        id: 'OVERSHOOT',
+        description: 'Too far',
+        feedbackText: "Did you use too many loops?"
+      }
+    ],
+    successMessage: "Double Loop! You are a coding wizard!"
   }
 };

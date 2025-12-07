@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component, ErrorInfo } from 'react';
+import React, { useState, useEffect, Component, ErrorInfo, ReactNode } from 'react';
 import { Stage, Language } from './types';
 import { evolveCode, generateMission } from './services/geminiService';
 import { StageKids } from './components/StageKids';
@@ -10,14 +10,19 @@ import { LandingPage } from './components/LandingPage';
 import { TRANSLATIONS } from './data/translations';
 import { CURRICULUM } from './data/curriculum';
 
-// Production Error Boundary
-class ErrorBoundary extends Component<{ children: React.ReactNode }, { hasError: boolean }> {
-  constructor(props: { children: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false };
-  }
+interface ErrorBoundaryProps {
+  children?: ReactNode;
+}
 
-  static getDerivedStateFromError(_: Error) {
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+// Production Error Boundary
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  public state: ErrorBoundaryState = { hasError: false };
+
+  static getDerivedStateFromError(_: Error): ErrorBoundaryState {
     return { hasError: true };
   }
 
@@ -31,7 +36,10 @@ class ErrorBoundary extends Component<{ children: React.ReactNode }, { hasError:
         <div className="h-screen flex items-center justify-center bg-gray-900 text-white flex-col p-6 text-center">
             <h1 className="text-3xl font-bold mb-4">Something went wrong.</h1>
             <p className="mb-6 text-gray-400">Our code elves are fixing it. Please refresh.</p>
-            <button onClick={() => window.location.reload()} className="bg-blue-600 px-6 py-2 rounded-full font-bold">Reload App</button>
+            <button onClick={() => {
+                localStorage.clear();
+                window.location.reload();
+            }} className="bg-blue-600 px-6 py-2 rounded-full font-bold">Reset & Reload</button>
         </div>
       );
     }
@@ -45,7 +53,12 @@ export default function App() {
 
   // Initialize state from localStorage with fallbacks
   const [stage, setStage] = useState<Stage>(() => {
-    return (localStorage.getItem('evolve_stage') as Stage) || Stage.KIDS;
+    const saved = localStorage.getItem('evolve_stage');
+    // Validation to prevent invalid enum values causing crashes
+    if (saved && Object.values(Stage).includes(saved as Stage)) {
+        return saved as Stage;
+    }
+    return Stage.KIDS;
   });
   
   const [language, setLanguage] = useState<Language>(() => {
@@ -104,6 +117,20 @@ export default function App() {
     localStorage.setItem('evolve_completedLessons', JSON.stringify(completedLessons));
     setLastSaved(new Date());
   }, [stage, code, logicStack, completedLessons]);
+
+  // Cross-OS Key Listener for Saving
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Check for Ctrl+S (Windows/Linux) or Cmd+S (macOS)
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        setLastSaved(new Date());
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Determine current lesson
   const getCurrentLesson = () => {

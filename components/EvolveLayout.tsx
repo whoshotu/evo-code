@@ -16,7 +16,7 @@ export const EvolveLayout: React.FC<Props> = ({
   workClass = ""
 }) => {
   return (
-    <div className={`h-full w-full flex flex-col md:grid md:grid-cols-[minmax(320px,40%)_1fr] overflow-hidden ${className}`}>
+    <div className={`h-full w-full flex flex-col md:grid md:grid-cols-[400px_1fr] overflow-hidden ${className}`}>
       {/* STAGE AREA */}
       {/* Mobile: Top, Fixed Aspect Ratio 4/3. Desktop: Left Column, Full Height */}
       <div className={`w-full md:h-full relative shrink-0 md:border-r border-black/10 dark:border-white/10 ${stageClass}`}>

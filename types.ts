@@ -20,6 +20,16 @@ export interface ChatMessage {
   text: string;
 }
 
+export type BlockAction = "Move Forward" | "Turn Right" | "Turn Left" | "Repeat 3 Times";
+
+export interface ChatEntry {
+  id: string;
+  role: 'tutor' | 'user';
+  content: string; // For tutor: text. For user: JSON string of blocks or text representation
+  type: 'text' | 'blocks';
+  isLatest?: boolean; // To allow interaction with the most recent block sequence
+}
+
 export interface CodeContext {
   code: string;
   language: string;

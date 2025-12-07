@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { generateAssetImage, generateAssetVideo, simulateCodeExecution } from '../services/geminiService';
 import { Lesson } from '../types';
 import { EvolveLayout } from './EvolveLayout';
@@ -18,6 +18,8 @@ export const StagePro: React.FC<Props> = ({ code, setCode, lesson, onComplete })
   const [genType, setGenType] = useState<'IMAGE' | 'VIDEO'>('IMAGE');
   const [imgSize, setImgSize] = useState<'1K' | '2K' | '4K'>('1K');
   const [vidRatio, setVidRatio] = useState<'16:9' | '9:16'>('16:9');
+  const [startImage, setStartImage] = useState<string | null>(null); // For video gen
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
   const [genError, setGenError] = useState<string | null>(null);
@@ -25,6 +27,15 @@ export const StagePro: React.FC<Props> = ({ code, setCode, lesson, onComplete })
   // Terminal State
   const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
   const [isRunning, setIsRunning] = useState(false);
+
+  // Memory Cleanup for Blob URLs
+  useEffect(() => {
+    return () => {
+        if (generatedUrl && generatedUrl.startsWith('blob:')) {
+            URL.revokeObjectURL(generatedUrl);
+        }
+    };
+  }, [generatedUrl]);
 
   const handleRunCode = async () => {
       setIsRunning(true);
@@ -34,19 +45,38 @@ export const StagePro: React.FC<Props> = ({ code, setCode, lesson, onComplete })
       setIsRunning(false);
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setStartImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleGenerate = async () => {
       if (!genPrompt) return;
       setIsGenerating(true);
       setGenError(null);
+      
+      // Revoke previous URL if it was a blob to free memory before generating new one
+      if (generatedUrl && generatedUrl.startsWith('blob:')) {
+          URL.revokeObjectURL(generatedUrl);
+      }
       setGeneratedUrl(null);
-      setTerminalOutput(prev => [...prev, `➜  ~/project genai --create "${genPrompt.substring(0, 20)}..."`]);
+
+      const cmd = genType === 'IMAGE' ? 'genai --image' : 'genai --video';
+      setTerminalOutput(prev => [...prev, `➜  ~/project ${cmd} "${genPrompt.substring(0, 20)}..."`]);
       
       try {
           let result: string;
           if (genType === 'IMAGE') {
               result = await generateAssetImage(genPrompt, imgSize);
           } else {
-              result = await generateAssetVideo(genPrompt, vidRatio);
+              // Pass startImage if it exists (for animating images)
+              result = await generateAssetVideo(genPrompt, vidRatio, startImage || undefined);
           }
           
           setGeneratedUrl(result);
@@ -218,6 +248,32 @@ export const StagePro: React.FC<Props> = ({ code, setCode, lesson, onComplete })
                                     </div>
                                 )}
                             </div>
+
+                            {/* Veo Image Input */}
+                            {genType === 'VIDEO' && (
+                                <div className="p-3 border border-dashed border-gray-600 rounded bg-[#1e1e1e]">
+                                    <label className="block text-xs uppercase text-gray-500 font-bold mb-2">
+                                        <i className="fas fa-upload mr-1"></i> Start Image (Optional)
+                                    </label>
+                                    <input 
+                                        type="file" 
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        className="w-full text-xs text-gray-400 file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-gray-700 file:text-white hover:file:bg-gray-600 cursor-pointer"
+                                    />
+                                    {startImage && (
+                                        <div className="mt-2 relative inline-block">
+                                            <img src={startImage} alt="Preview" className="h-16 w-16 object-cover rounded border border-gray-500" />
+                                            <button 
+                                                onClick={() => setStartImage(null)}
+                                                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px]"
+                                            >
+                                                &times;
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
 
                             <button 
                                 onClick={handleGenerate}

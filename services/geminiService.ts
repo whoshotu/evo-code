@@ -13,7 +13,9 @@ const getAiClient = () => {
 // --- Helper for PCM Audio Decoding ---
 export const playRawAudio = async (base64String: string) => {
   try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
+    // Cross-browser AudioContext creation
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    const audioContext = new AudioContextClass();
     
     // Decode base64 to binary
     const binaryString = atob(base64String);
@@ -25,6 +27,8 @@ export const playRawAudio = async (base64String: string) => {
 
     // Convert to Float32 for AudioContext (16-bit PCM to Float)
     const dataInt16 = new Int16Array(bytes.buffer);
+    
+    // Create buffer with the source sample rate (24000 for Gemini)
     const buffer = audioContext.createBuffer(1, dataInt16.length, 24000);
     const channelData = buffer.getChannelData(0);
     for (let i = 0; i < dataInt16.length; i++) {
@@ -35,6 +39,12 @@ export const playRawAudio = async (base64String: string) => {
     const source = audioContext.createBufferSource();
     source.buffer = buffer;
     source.connect(audioContext.destination);
+    
+    // Resource Management: Close context after playback
+    source.onended = () => {
+        audioContext.close().catch(e => console.error("Error closing AudioContext", e));
+    };
+    
     source.start();
   } catch (e) {
     console.error("Audio playback error", e);
@@ -53,7 +63,7 @@ export const generateSpeech = async (text: string): Promise<string | null> => {
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: 'Kore' }, // Kore is a good, neutral voice
+            prebuiltVoiceConfig: { voiceName: 'Kore' },
           },
         },
       },
@@ -88,14 +98,14 @@ export const generateAssetImage = async (prompt: string, size: '1K' | '2K' | '4K
                 return `data:image/png;base64,${part.inlineData.data}`;
             }
         }
-        throw new Error("No image data found in response. (Safety filters may have blocked output)");
+        throw new Error("No image data found in response.");
     } catch (e: any) {
         console.error("Image Gen Error", e);
         throw new Error(e.message || "Image generation failed.");
     }
 };
 
-export const generateAssetVideo = async (prompt: string, aspectRatio: '16:9' | '9:16'): Promise<string> => {
+export const generateAssetVideo = async (prompt: string, aspectRatio: '16:9' | '9:16', imageBase64WithPrefix?: string): Promise<string> => {
   const ai = getAiClient();
   if (!ai) throw new Error("API Key not found.");
 
@@ -108,15 +118,27 @@ export const generateAssetVideo = async (prompt: string, aspectRatio: '16:9' | '
   }
 
   try {
-    let operation = await ai.models.generateVideos({
-      model: 'veo-3.1-fast-generate-preview',
-      prompt: prompt,
-      config: {
-        numberOfVideos: 1,
-        resolution: '1080p',
-        aspectRatio: aspectRatio
-      }
-    });
+    const req: any = {
+        model: 'veo-3.1-fast-generate-preview',
+        prompt: prompt,
+        config: {
+            numberOfVideos: 1,
+            resolution: '1080p',
+            aspectRatio: aspectRatio
+        }
+    };
+
+    if (imageBase64WithPrefix) {
+        const mimeMatch = imageBase64WithPrefix.match(/^data:(.*);base64,(.*)$/);
+        if (mimeMatch) {
+            req.image = {
+                mimeType: mimeMatch[1],
+                imageBytes: mimeMatch[2]
+            };
+        }
+    }
+
+    let operation = await ai.models.generateVideos(req);
 
     // Safety: Prevent infinite loops if generation hangs
     let attempts = 0;
@@ -161,18 +183,16 @@ export const generateMission = async (stage: Stage, language: Language, lesson?:
     CRITICAL OUTPUT RULES:
     1. Translate the mission title into the requested language (${language}).
     2. For KIDS stage: Must start with a relevant Emoji. Must be solvable with 'Move', 'Turn', and 'Repeat'. 
-       Example: "🏎️ Win the Race", "🚀 Fly to Mars"
-    3. For TWEEN stage: Logic puzzle format related to the lesson.
+    3. For TWEEN stage: Logic puzzle format.
     4. For TEEN/PRO: Professional task description.
-    
-    SAFETY: Do not generate violent, scary, or inappropriate mission titles.
     
     Output ONLY the sentence in ${language}.
   `;
 
   try {
+    // Use Flash-Lite for low-latency text generation
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-2.5-flash-lite',
       contents: prompt,
     });
     return response.text?.trim() || "Start coding!";
@@ -186,19 +206,24 @@ export const evolveCode = async (currentCode: string, fromStage: Stage, toStage:
   if (!ai) return "// Error: API Key missing. Please set process.env.API_KEY";
 
   let specificInstruction = "";
+  let modelName = 'gemini-2.5-flash-lite'; // Default to fast model
+  let config: any = {};
   
   if (toStage === Stage.TWEEN) {
     specificInstruction = "Convert the list of user actions into Scratch-like block descriptions. Format: One block per line. Use emojis for visuals.";
   } else if (toStage === Stage.TEEN) {
     specificInstruction = "Convert the logic into simplified Python. No classes, just functions or direct script. Keep it readable for beginners.";
   } else if (toStage === Stage.PRO) {
+    // Use Thinking Mode for complex code evolution (Pro level)
+    modelName = 'gemini-3-pro-preview';
+    config = { thinkingConfig: { thinkingBudget: 32768 } };
     specificInstruction = "Convert the logic into professional, idiomatic Python. Use classes, type hints, main guards, and proper docstrings. Optimize for 'Big O' efficiency.";
   }
 
   const prompt = `
     Act as an expert coding tutor engine. 
     Task: Evolve the code from ${fromStage} complexity to ${toStage} complexity.
-    Language: ${language} (Code comments and variable names should be appropriate for this language if typical, otherwise standard English for code keywords but comments in ${language}).
+    Language: ${language}
     
     Current Input: "${currentCode}"
     
@@ -206,14 +231,15 @@ export const evolveCode = async (currentCode: string, fromStage: Stage, toStage:
     
     Output Rules:
     - ONLY return the code content. 
-    - Do NOT wrap in markdown code blocks (e.g. no \`\`\`python).
+    - Do NOT wrap in markdown code blocks.
     - Do not add conversational text.
   `;
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: modelName,
       contents: prompt,
+      config: config
     });
     return response.text ? response.text.replace(/```python|```/g, '').trim() : "";
   } catch (error) {
@@ -227,7 +253,7 @@ export const getTutorHelp = async (query: string, code: string, stage: Stage, mi
   if (!ai) return "I need an API key to help you! (Set process.env.API_KEY)";
 
   // Configuration based on stage
-  let modelName = 'gemini-2.5-flash';
+  let modelName = 'gemini-2.5-flash-lite'; // Default to Flash-Lite for speed
   let config: any = {};
 
   if (stage === Stage.PRO) {
@@ -236,9 +262,6 @@ export const getTutorHelp = async (query: string, code: string, stage: Stage, mi
     config = {
       thinkingConfig: { thinkingBudget: 32768 } // Max thinking budget for deep reasoning
     };
-  } else if (stage === Stage.TEEN) {
-     // Use Pro for Teen but standard generation
-     modelName = 'gemini-3-pro-preview';
   }
 
   // Safety settings to prevent harm
@@ -326,8 +349,9 @@ export const simulateCodeExecution = async (code: string): Promise<string> => {
     `;
 
     try {
+        // Use Flash-Lite for immediate execution feedback
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-2.5-flash-lite',
             contents: prompt,
         });
         return response.text?.trim() || "";
