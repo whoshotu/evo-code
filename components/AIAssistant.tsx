@@ -60,7 +60,7 @@ export const AIAssistant: React.FC<Props> = ({ stage, currentCode, mission, lang
       <div className={`p-4 font-bold border-b flex justify-between items-center ${isDarkMode ? 'text-gray-200 border-gray-800' : 'text-gray-700 border-gray-200'}`}>
         <span><i className="fas fa-robot mr-2 text-pro-accent"></i> {t.aiTutor}</span>
         <span className="text-[10px] uppercase tracking-widest opacity-50">
-            {stage === Stage.PRO ? `Gemini 3 Pro` : `Gemini 2.5`}
+            {stage === Stage.PRO ? `AI Tutor Pro` : `AI Tutor`}
         </span>
       </div>
 
