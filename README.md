@@ -44,6 +44,7 @@ EvolveCode/
 ## 🏃‍♂️ How to Run
 
 ### 1. Web App (React)
+
 ```bash
 npm install
 export API_KEY="your_gemini_key"
@@ -52,18 +53,99 @@ npm run dev
 ```
 
 ### 2. Standalone Demo
+
 Simply open `demo/index.html` in any modern browser. No installation required.
 
 ### 3. Kaggle Notebook
+
 Upload `evolve-code-hackathon.ipynb` to Kaggle kernels or run locally with Jupyter Lab.
 
 ## 🚢 Deployment
 
 **Vercel / Netlify:**
+
 ```bash
 npm run build
 vercel deploy --prod
 ```
 
+## 📚 Documentation
+
+Comprehensive documentation is available to help you understand and contribute to EvolveCode:
+
+### 📖 For Developers
+
+- **[Quick Reference Guide](QUICK_REFERENCE.md)** - Common commands, snippets, and quick fixes
+- **[Workflow Guide](WORKFLOW_GUIDE.md)** - Development processes, feature implementation, testing, and deployment
+- **[Stack Documentation](STACK_DOCUMENTATION.md)** - Complete technology stack details and dependencies
+- **[Architecture Documentation](ARCHITECTURE.md)** - System design, data flow, and scalability considerations
+
+### 🎓 For Educators
+
+- **[Design Journal](DESIGN_JOURNAL.md)** - Learning science principles and pedagogical approach
+- **[Video Script](VIDEO_SCRIPT.md)** - Project pitch and demonstration guide
+
+### 🚀 Getting Started Path
+
+1. **New to the project?** Start with this README
+2. **Want to run it?** Check [Quick Reference Guide](QUICK_REFERENCE.md)
+3. **Ready to contribute?** Read [Workflow Guide](WORKFLOW_GUIDE.md)
+4. **Need technical details?** See [Stack Documentation](STACK_DOCUMENTATION.md)
+5. **Understanding the system?** Study [Architecture Documentation](ARCHITECTURE.md)
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how to get started:
+
+1. **Fork the repository**
+2. **Read the [Workflow Guide](WORKFLOW_GUIDE.md)**
+3. **Create a feature branch**: `git checkout -b feature/your-feature`
+4. **Make your changes** following our coding standards
+5. **Test thoroughly** using the checklist in [Quick Reference](QUICK_REFERENCE.md)
+6. **Submit a pull request**
+
+### Contribution Areas
+
+- 🎨 **UI/UX**: Improve stage interfaces
+- 🤖 **AI**: Enhance prompts and model selection
+- 📚 **Curriculum**: Add new lessons and modules
+- 🌐 **i18n**: Add language translations
+- 🐛 **Bugs**: Fix issues and improve stability
+- 📖 **Docs**: Improve documentation
+
+## 🔒 Security
+
+- **API Key**: Currently exposed in client bundle. For production, implement a backend proxy.
+- **Content Safety**: AI responses filtered via Gemini safety settings.
+- **No Code Execution**: User code is simulated, not executed.
+
+See [Architecture Documentation](ARCHITECTURE.md#security-architecture) for details.
+
+## 📊 Project Status
+
+- ✅ **Core Features**: Complete
+- ✅ **4 Learning Stages**: Implemented
+- ✅ **AI Integration**: Functional
+- ✅ **Curriculum System**: Operational
+- 🚧 **Backend API**: Planned
+- 🚧 **Real-time Collaboration**: Future
+- 🚧 **ML-based Progression**: In development
+
+## 📄 License
+
+This project is open source. See LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- **Google Gemini API** - Powering the AI features
+- **React Team** - For the amazing framework
+- **Tailwind CSS** - For the utility-first styling
+- **Vite** - For blazing fast development
+
 ---
-*Created by a Kaggle Grandmaster for the 2025 AI Hackathon.*
+
+**Version**: 1.0.0  
+**Last Updated**: 2026-02-04  
+**Maintained By**: EvolveCode Team  
+
+*Created for the Kaggle Adaptive Learning Hackathon - Bridging the gap between block-based and professional coding.*
