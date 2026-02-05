@@ -19,11 +19,12 @@ npm run preview
 ## 🔑 Environment Setup
 
 ```bash
-# Create .env file
-echo "GEMINI_API_KEY=your_api_key_here" > .env
+# Configure backend API
+# Edit backend/config/config.php
+$OPENROUTER_API_KEY = 'your_key_here';
 
 # Get API key from:
-# https://aistudio.google.com/apikey
+# https://openrouter.ai/keys
 ```
 
 ## 📁 Project Structure
@@ -93,7 +94,7 @@ export const TRANSLATIONS = {
 ### Call AI Service
 
 ```typescript
-import { getTutorHelp } from './services/geminiService';
+import { getTutorHelp } from './services/backendService';
 
 const response = await getTutorHelp(
   "How do I use loops?",
@@ -160,14 +161,14 @@ className="animate-spin-slow"  // Slow rotation
 ### Safe Code Execution
 
 - ✅ **Simulation only**: No eval() or Function()
-- ✅ **AI-based**: Gemini simulates execution
+- ✅ **AI-based**: Backend simulates execution
 
 ## 📊 File Sizes (Approximate)
 
 | File | Lines | Purpose |
 |------|-------|---------|
 | App.tsx | 365 | Main orchestrator |
-| geminiService.ts | 361 | AI integration |
+| backendService.ts | 200 | Backend API integration |
 | StagePro.tsx | 183 | Professional IDE |
 | StageKids.tsx | 65 | Block-based UI |
 | curriculum.ts | 145 | Lesson data |
@@ -187,7 +188,6 @@ className="animate-spin-slow"  // Slow rotation
 
 - `react@19.2.1`
 - `react-dom@19.2.1`
-- `@google/genai@1.31.0`
 
 ### Development
 
@@ -197,36 +197,29 @@ className="animate-spin-slow"  // Slow rotation
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Deploy to AlterVista
 
 ```bash
-vercel login
-vercel link
-vercel env add GEMINI_API_KEY
-vercel --prod
+# 1. Configure backend/config/config.php
+# 2. Build the app
+npm run build
+
+# 3. Upload via FTP:
+#    - dist/* to /public_html/
+#    - backend/ to /public_html/backend/
 ```
 
-### Netlify
-
-```bash
-netlify login
-netlify init
-netlify env:set GEMINI_API_KEY your_key
-netlify deploy --prod
-```
+See `DEPLOY.md` for detailed instructions.
 
 ## 📈 Performance Tips
 
 ### Optimize AI Calls
 
 ```typescript
-// Use Flash-Lite for speed
-model: 'gemini-2.5-flash-lite'
-
-// Use Pro only when needed
-if (stage === Stage.PRO) {
-  model: 'gemini-3-pro-preview'
-}
+// Backend handles model selection
+// Fast models for simple queries
+// Advanced models for complex tasks
+const response = await getTutorHelp(query, code, stage, mission, language);
 ```
 
 ### Reduce Bundle Size
@@ -259,7 +252,7 @@ const StagePro = React.lazy(() => import('./components/StagePro'));
 ### External Resources
 
 - [React Docs](https://react.dev)
-- [Gemini API](https://ai.google.dev/gemini-api/docs)
+- [OpenRouter API](https://openrouter.ai/docs)
 - [Tailwind CSS](https://tailwindcss.com/docs)
 - [TypeScript](https://www.typescriptlang.org/docs/)
 
@@ -309,7 +302,7 @@ const blocks = [
 
 ```typescript
 try {
-  const response = await geminiAPI.generateContent(prompt);
+  const response = await callBackend('generateText', { prompt });
   return response.text;
 } catch (error) {
   console.error('API Error:', error);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getTutorHelp, generateSpeech, playRawAudio } from '../services/geminiService';
+import { getTutorHelp, generateSpeech, playRawAudio } from '../services/backendService';
 import { Stage, ChatMessage, Language, Lesson } from '../types';
 import { TRANSLATIONS } from '../data/translations';
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Lesson } from '../types';
-import { simulateCodeExecution } from '../services/geminiService';
+import { simulateCodeExecution } from '../services/backendService';
 import { EvolveLayout } from './EvolveLayout';
 
 interface Props {

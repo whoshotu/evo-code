@@ -20,6 +20,15 @@ dist-ssr
 .env.test
 .env*.local
 
+# Backend configuration (CRITICAL - Never commit!)
+backend/config/config.php
+backend/logs/*.log
+
+# Deployment artifacts
+evolvecode-*.zip
+*.zip
+deploy.sh
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

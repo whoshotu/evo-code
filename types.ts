@@ -51,8 +51,83 @@ export interface Lesson {
   title: string;
   description: string; // The "Problem"
   task: string; // The specific instruction
-  solutionExplanation?: string; // Educational context
+  solutionExplanation?: string | {
+    simple: string;
+    detailed: string;
+    conceptual: string;
+  }; // Educational context - can be string or object for enhanced explanations
   gridConfig?: GridConfig; // For visual stages
+  
+  // ENHANCED EDUCATIONAL FEATURES
+  // Learning scaffolds
+  scaffolds?: {
+    preLesson?: {
+      type: 'animation' | 'video' | 'demo';
+      content: string;
+      duration?: number; // seconds
+    };
+    duringLesson?: {
+      visualAids?: string[];
+      audioNarration?: boolean;
+      highlightAvailableBlocks?: boolean;
+    };
+    postLesson?: {
+      reflection?: string;
+      celebration?: string;
+    };
+  };
+  
+  // Differentiated success criteria
+  successCriteria?: {
+    minimum: {
+      description: string;
+      blocks?: number;
+      hints: number;
+    };
+    proficient?: {
+      description: string;
+      blocks?: number;
+      hints: number;
+    };
+    advanced?: {
+      description: string;
+      blocks?: number;
+      hints: number;
+    };
+  };
+  
+  // Formative assessment checkpoints
+  checkpoints?: {
+    afterAttempts: number;
+    question: string;
+    options: string[];
+    correctAnswer: string;
+    feedback: {
+      correct: string;
+      incorrect: string;
+    };
+  }[];
+  
+  // Real-world connections
+  realWorldConnection?: {
+    example: string;
+    relatable: string;
+    career?: string;
+  };
+  
+  // Prerequisites
+  prerequisites?: {
+    concepts: string[];
+    lessons: string[];
+    minimumScore?: number;
+  };
+  
+  // Extension activities
+  extensions?: {
+    title: string;
+    description: string;
+    difficulty: 'easy' | 'medium' | 'hard';
+  }[];
 }
 
 export interface Module {
@@ -75,3 +150,51 @@ export type LevelConfig = {
   }[];
   successMessage: string;    // specific praise naming the concept
 };
+
+// --- ADAPTIVE LEARNING TYPES ---
+
+export interface LearnerProfile {
+  userId: string;
+  currentStage: Stage;
+  
+  // Performance metrics
+  lessonsCompleted: string[];
+  hintsUsed: Record<string, number>;
+  attemptsPerLesson: Record<string, number>;
+  timeSpentPerLesson: Record<string, number>;
+  errorPatterns: Record<string, number>;
+  
+  // Adaptive parameters
+  difficultyLevel: 'easy' | 'medium' | 'hard';
+  learningPace: 'slow' | 'moderate' | 'fast';
+  preferredLearningStyle: 'visual' | 'textual' | 'auditory' | 'kinesthetic';
+  
+  // Engagement metrics
+  streakDays: number;
+  totalSessionTime: number;
+  lastActiveDate: Date;
+}
+
+// --- ACHIEVEMENT SYSTEM TYPES ---
+
+export interface Achievement {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  criteria: AchievementCriteria;
+  reward: {
+    xp: number;
+    badge: string;
+    unlocks?: string[];
+  };
+}
+
+export interface AchievementCriteria {
+  lessonId?: string;
+  completed?: boolean;
+  hintsUsed?: number;
+  streakDays?: number;
+  score?: number;
+  custom?: (profile: LearnerProfile) => boolean;
+}

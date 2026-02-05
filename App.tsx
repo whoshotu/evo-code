@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Component, ErrorInfo, ReactNode } from 'react';
 import { Stage, Language } from './types';
-import { evolveCode, generateMission } from './services/geminiService';
+import { evolveCode, generateMission } from './services/backendService';
 import { StageKids } from './components/StageKids';
 import { StageTween } from './components/StageTween';
 import { StageTeen } from './components/StageTeen';

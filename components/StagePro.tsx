@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { generateAssetImage, generateAssetVideo, simulateCodeExecution } from '../services/geminiService';
+import { simulateCodeExecution } from '../services/backendService';
 import { Lesson } from '../types';
 import { EvolveLayout } from './EvolveLayout';
 
@@ -71,23 +71,19 @@ export const StagePro: React.FC<Props> = ({ code, setCode, lesson, onComplete })
       setTerminalOutput(prev => [...prev, `➜  ~/project ${cmd} "${genPrompt.substring(0, 20)}..."`]);
       
       try {
-          let result: string;
-          if (genType === 'IMAGE') {
-              result = await generateAssetImage(genPrompt, imgSize);
-          } else {
-              // Pass startImage if it exists (for animating images)
-              result = await generateAssetVideo(genPrompt, vidRatio, startImage || undefined);
-          }
-          
-          setGeneratedUrl(result);
-          setTerminalOutput(prev => [...prev, `✓ Asset generated successfully.`]);
-      } catch (e) {
-          const errorMessage = e instanceof Error ? e.message : 'Unknown generation error';
-          setGenError(errorMessage);
-          setTerminalOutput(prev => [...prev, `✗ Error: ${errorMessage}`]);
-      } finally {
-          setIsGenerating(false);
-      }
+           // Asset generation temporarily disabled
+           // This feature used Google Gemini API which has been removed
+           // To re-enable: Implement asset generation through backendService
+           const errorMessage = 'Asset generation temporarily unavailable';
+           setGenError(errorMessage);
+           setTerminalOutput(prev => [...prev, `✗ Error: ${errorMessage}`]);
+       } catch (e) {
+           const errorMessage = e instanceof Error ? e.message : 'Unknown generation error';
+           setGenError(errorMessage);
+           setTerminalOutput(prev => [...prev, `✗ Error: ${errorMessage}`]);
+       } finally {
+           setIsGenerating(false);
+       }
   };
 
   // --- STAGE CONTENT (Left/Top) ---

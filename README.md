@@ -2,7 +2,7 @@
 
 > **Winner of the Kaggle Adaptive Learning Hackathon (Simulation)**
 
-EvolveCode is a revolutionary coding platform that grows with the user. It starts as a simple, block-based game for children and "evolves" into a full-featured Professional IDE as skills improve, powered by Google's Gemini 2.5 Flash model.
+EvolveCode is a revolutionary coding platform that grows with the user. It starts as a simple, block-based game for children and "evolves" into a full-featured Professional IDE as skills improve, powered by AI through OpenRouter.
 
 ## 🔗 Live Demo & Links
 
@@ -13,14 +13,14 @@ EvolveCode is a revolutionary coding platform that grows with the user. It start
 ## 🚀 Features
 
 - **Adaptive Interface**: 4 Distinct stages (Kids, Tween, Teen, Pro) that change UI/UX drastically.
-- **AI Evolution Engine**: Click "Evolve" to translate logic blocks into real Python code instantly using Gemini.
+- **AI Evolution Engine**: Click "Evolve" to translate logic blocks into real Python code instantly using AI.
 - **Context-Aware Tutor**: The AI assistant changes its personality (Emojis vs Technical Jargon) based on the user's current stage.
 - **Progression ML**: Built-in Predictive model (see `evolve-code-hackathon.ipynb`) determines when a user is ready to level up.
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18, TypeScript, Tailwind CSS
-- **AI**: Google Gemini API (`gemini-2.5-flash`)
+- **AI**: OpenRouter API (Multi-provider AI access)
 - **Editor**: Monaco Editor (Simulated for this demo)
 - **Data Science**: Python, Scikit-learn (in Notebook)
 
@@ -47,10 +47,11 @@ EvolveCode/
 
 ```bash
 npm install
-export API_KEY="your_gemini_key"
 npm run dev
 # Open http://localhost:5173
 ```
+
+**Note:** Configure your OpenRouter API key in `backend/config/config.php` for AI features.
 
 ### 2. Standalone Demo
 
@@ -116,7 +117,7 @@ We welcome contributions! Here's how to get started:
 ## 🔒 Security
 
 - **API Key**: Currently exposed in client bundle. For production, implement a backend proxy.
-- **Content Safety**: AI responses filtered via Gemini safety settings.
+- **Content Safety**: AI responses filtered via safety settings.
 - **No Code Execution**: User code is simulated, not executed.
 
 See [Architecture Documentation](ARCHITECTURE.md#security-architecture) for details.
@@ -137,7 +138,7 @@ This project is open source. See LICENSE file for details.
 
 ## 🙏 Acknowledgments
 
-- **Google Gemini API** - Powering the AI features
+- **OpenRouter API** - Powering the AI features
 - **React Team** - For the amazing framework
 - **Tailwind CSS** - For the utility-first styling
 - **Vite** - For blazing fast development
