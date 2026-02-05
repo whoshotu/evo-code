@@ -55,11 +55,15 @@ define('ENVIRONMENT', 'production'); // 'development' or 'production'
 define('RATE_LIMIT_REQUESTS', 60); // Requests per hour per session
 define('RATE_LIMIT_ENABLED', true);
 
-// CORS Settings
+// CORS Settings - UPDATE WITH YOUR DOMAIN
 define('ALLOWED_ORIGINS', [
-    'https://yourusername.altervista.org',
-    'http://localhost:3000' // For local development
+    'https://hereisreal.altervista.org',
+    'https://hereisreal.altervista.org/evolve-code',
+    'http://localhost:5173' // For local Vite development
 ]);
+
+// Base path for subdirectory deployment
+define('BASE_PATH', '/evolve-code');
 
 // Logging
 define('LOG_ERRORS', true);

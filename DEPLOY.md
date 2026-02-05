@@ -23,9 +23,10 @@ define('DB_NAME', 'my_yourusername');
 define('DB_USER', 'yourusername');
 define('DB_PASS', 'your_db_password');
 
-// Update this to your domain
+// Your domain (already configured!)
 define('ALLOWED_ORIGINS', [
-    'https://yourusername.altervista.org'
+    'https://hereisreal.altervista.org',
+    'https://hereisreal.altervista.org/evolve-code'
 ]);
 ```
 
@@ -44,14 +45,36 @@ Creates `dist/` folder with your app.
 
 ## 3️⃣ Upload to AlterVista (2 min)
 
-**Via FTP:**
-- Host: `ftp.yourusername.altervista.org`
-- Upload `dist/*` to `/public_html/`
-- Upload `backend/` folder to `/public_html/backend/`
+### Option A: CLI Deployment (Recommended if you have SSH/FTP access)
 
-**Or use File Manager:**
-- Zip `dist/` contents → upload & extract to root
-- Zip `backend/` folder → upload & extract
+**Using SSH (fastest):**
+```bash
+./deploy-ssh.sh hereisreal hereisreal.altervista.org
+```
+
+**Using FTP:**
+```bash
+# First, edit deploy-ftp.sh with your credentials
+nano deploy-ftp.sh
+# Then run
+./deploy-ftp.sh
+```
+
+**Interactive wizard (chooses best method):**
+```bash
+./deploy.sh
+```
+
+### Option B: Manual Upload
+
+**Via FTP Client (FileZilla):**
+- Host: `ftp.hereisreal.altervista.org`
+- Upload `dist/*` to `/public_html/evolve-code/`
+- Upload `backend/` folder to `/public_html/evolve-code/backend/`
+
+**Via File Manager:**
+- Zip `dist/` contents → upload & extract to `/public_html/evolve-code/`
+- Zip `backend/` folder → upload & extract to `/public_html/evolve-code/`
 
 ---
 
@@ -69,8 +92,8 @@ Done! Tables created automatically.
 
 ## ✅ Test It
 
-- **App**: `https://yourusername.altervista.org`
-- **API Test**: `https://yourusername.altervista.org/backend/test.php`
+- **App**: `https://hereisreal.altervista.org/evolve-code/`
+- **API Test**: `https://hereisreal.altervista.org/evolve-code/backend/test.php`
 
 If test.php shows ✓ checks, you're good!
 
@@ -102,18 +125,19 @@ If test.php shows ✓ checks, you're good!
 
 ---
 
-## 📝 File Structure on Server
+## 📝 File Structure on Server (Subdirectory)
 
 ```
 public_html/
-├── index.html              ← dist contents
-├── assets/
-│   └── index-xxx.js
-├── backend/
-│   ├── api/ai-proxy.php
-│   ├── config/config.php   ← your keys here
-│   └── database/schema.sql
-└── .htaccess
+├── your-other-projects/    ← your existing projects
+└── evolve-code/            ← THIS PROJECT
+    ├── index.html          ← dist contents
+    ├── assets/
+    │   └── index-xxx.js
+    └── backend/
+        ├── api/ai-proxy.php
+        ├── config/config.php   ← your keys here
+        └── database/schema.sql
 ```
 
 ---

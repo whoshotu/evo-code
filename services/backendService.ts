@@ -6,8 +6,8 @@ import { Stage, Lesson, Language } from '../types';
  * This keeps API keys secure on the server
  */
 
-// Backend API URL - UPDATE THIS WITH YOUR ALTERVISTA URL
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://yourusername.altervista.org/backend/api/ai-proxy.php';
+// Backend API URL - YOUR ALTERVISTA DOMAIN (subdirectory)
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://hereisreal.altervista.org/evolve-code/backend/api/ai-proxy.php';
 
 /**
  * Call the backend AI proxy
