@@ -4,10 +4,7 @@
 # Enable Rewrite Engine
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /
-  
-  # If deploying to a subdirectory (e.g., /evo-code/), uncomment and modify:
-  # RewriteBase /evo-code/
+  RewriteBase /evolve-code/
   
   # Don't rewrite files or directories that exist
   RewriteCond %{REQUEST_FILENAME} !-f
