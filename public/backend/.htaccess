@@ -1,0 +1,43 @@
+<IfModule mod_headers.c>
+  # CORS Headers for specific domain (more secure than *)
+  Header always set Access-Control-Allow-Origin "https://hereisreal.altervista.org"
+  Header always set Access-Control-Allow-Credentials "true"
+  
+  # Handle subdirectory paths
+  RewriteBase /evolve-code/
+  Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+  Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+  Header always set Access-Control-Max-Age "86400"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Handle preflight OPTIONS requests
+  RewriteCond %{REQUEST_METHOD} OPTIONS
+  RewriteRule ^(.*)$ $1 [R=204,L]
+  
+  # Fix for Authorization header missing in some shared hosting
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+  
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# Deny access to sensitive files
+<FilesMatch "^\.">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+# Protect config files
+<Files "config.php">
+  Order allow,deny
+  Deny from all
+</Files>
+
+# Disable directory browsing
+Options -Indexes

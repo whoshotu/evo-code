@@ -4,31 +4,30 @@ export const CURRICULUM: Record<Stage, Module[]> = {
   [Stage.KIDS]: [
     {
       id: 'kids-m1',
-      title: '🎒 Adventure Basics',
+      title: '📱 Your First App',
       lessons: [
         { 
           id: 'k-l1', 
-          title: '🐝 Hungry Bee', 
-          description: 'The bee is hungry but the flower is far away.', 
-          task: 'Program the bee to fly to the flower.', 
+          title: '🎮 Game Start', 
+          description: 'Your favorite game character needs to reach the goal.', 
+          task: 'Program the character to walk straight to the finish line.', 
           solutionExplanation: {
-            simple: 'The bee needs to move forward 3 times to reach the flower.',
-            detailed: 'Computers read instructions one at a time, from top to bottom. Each "Move Forward" block makes the bee take one step. Since the flower is 3 squares away, we need 3 "Move Forward" blocks.',
-            conceptual: 'This introduces SEQUENCING - the order of instructions matters! If we change the order, we get different results.'
+            simple: 'Just like pressing forward buttons in a game - tap "Move" 3 times.',
+            detailed: 'Programs run instructions ONE AT A TIME, from top to bottom. Just like how you play a game - each action happens in order. If you mess up the order, the game breaks!',
+            conceptual: 'SEQUENCING: This is how every app and game works. The order matters! Imagine if YouTube played videos backwards - chaos!'
           },
           gridConfig: {
             gridSize: 4,
             startPos: [0, 0],
             goalPos: [0, 3],
-            avatarEmoji: '🐝',
-            goalEmoji: '🌻',
-            backgroundTheme: 'grass'
+            avatarEmoji: '🎮',
+            goalEmoji: '🏁',
+            backgroundTheme: 'gaming'
           },
-          // ENHANCED: Learning scaffolds
           scaffolds: {
             preLesson: {
               type: 'demo',
-              content: 'Watch the bee demonstrate how to move forward one square at a time',
+              content: 'Watch how the character moves forward one step at a time - just like in your favorite game!',
               duration: 10
             },
             duringLesson: {
@@ -36,83 +35,38 @@ export const CURRICULUM: Record<Stage, Module[]> = {
               highlightAvailableBlocks: true
             },
             postLesson: {
-              reflection: 'What did you learn about giving instructions to computers?',
-              celebration: '🌟 Great job! You\'re a coding explorer!'
+              reflection: 'Ever notice games do the same thing over and over? That\'s sequencing!',
+              celebration: '⭐ You programmed your first game move!'
             }
           },
-          // ENHANCED: Differentiated success criteria
-          successCriteria: {
-            minimum: {
-              description: 'Reach the flower',
-              blocks: 5,
-              hints: 3
-            },
-            proficient: {
-              description: 'Reach the flower efficiently',
-              blocks: 3,
-              hints: 1
-            },
-            advanced: {
-              description: 'Reach the flower optimally',
-              blocks: 3,
-              hints: 0
-            }
-          },
-          // ENHANCED: Formative assessment
-          checkpoints: [
-            {
-              afterAttempts: 2,
-              question: 'How many steps does the bee need to take?',
-              options: ['2 steps', '3 steps', '4 steps'],
-              correctAnswer: '3 steps',
-              feedback: {
-                correct: '🎉 Great counting! Now try it in code.',
-                incorrect: '🤔 Try counting the squares again.'
-              }
-            }
-          ],
-          // ENHANCED: Real-world connection
           realWorldConnection: {
-            example: 'Just like following a recipe step by step!',
-            relatable: 'Like brushing your teeth - first toothpaste, then brush, then rinse!',
-            career: 'Robot engineers use sequences to program factory machines.'
-          },
-          // ENHANCED: Extension activities
-          extensions: [
-            {
-              title: '🎯 Challenge: Different Paths',
-              description: 'Can you find another way to reach the flower?',
-              difficulty: 'medium'
-            },
-            {
-              title: '🎨 Create Your Own',
-              description: 'Design a new puzzle for a friend!',
-              difficulty: 'hard'
-            }
-          ]
+            example: 'Like TikTok auto-playing videos one after the next!',
+            relatable: 'Your morning routine - you brush teeth THEN eat breakfast, not the other way around!',
+            career: 'Game developers code every character move this way.'
+          }
         },
         { 
           id: 'k-l2', 
-          title: '🔄 Corner Turn', 
-          description: 'The flower is hidden around the corner.', 
-          task: 'Walk forward, turn right, and walk again.',
+          title: '🎯 Plot Twist', 
+          description: 'The goal is around the corner! Navigate the turn.', 
+          task: 'Move forward, turn, then move again to reach the goal.', 
           solutionExplanation: {
-            simple: 'Move forward, turn right, then move forward again.',
-            detailed: 'The bee can only move in the direction it\'s facing. When we turn right, the bee rotates 90 degrees. Now "forward" takes us in a different direction!',
-            conceptual: 'This introduces DIRECTION and ORIENTATION. In programming, we track not just WHERE something is, but which WAY it\'s facing.'
+            simple: 'Walk forward, make a sharp turn, then keep going.',
+            detailed: 'Games need to know DIRECTION - which way is the character facing? When you turn, "forward" suddenly means a different direction. This is core to any game!',
+            conceptual: 'DIRECTION AWARENESS: From Fortnite to Among Us, every game tracks rotation and direction. You\'re using the same logic!'
           },
           gridConfig: {
             gridSize: 4,
             startPos: [0, 0],
             goalPos: [2, 2],
-            avatarEmoji: '🐝',
-            goalEmoji: '🌻',
-            backgroundTheme: 'grass'
+            avatarEmoji: '🎮',
+            goalEmoji: '🏁',
+            backgroundTheme: 'gaming'
           },
           scaffolds: {
             preLesson: {
               type: 'demo',
-              content: 'Watch how turning changes which way the bee faces',
+              content: 'See how mobile game characters turn corners when you swipe.',
               duration: 15
             },
             duringLesson: {
@@ -120,237 +74,427 @@ export const CURRICULUM: Record<Stage, Module[]> = {
               highlightAvailableBlocks: true
             },
             postLesson: {
-              reflection: 'Why did we need to turn? What would happen if we didn\'t?',
-              celebration: '🎉 You mastered turning!'
+              reflection: 'Notice in Minecraft how you face different directions? That\'s what we\'re doing!',
+              celebration: '🎮 You turned like a pro gamer!'
             }
           },
-          successCriteria: {
-            minimum: {
-              description: 'Reach the flower',
-              blocks: 6,
-              hints: 3
-            },
-            proficient: {
-              description: 'Use exactly one turn',
-              blocks: 4,
-              hints: 1
-            },
-            advanced: {
-              description: 'Most efficient path',
-              blocks: 4,
-              hints: 0
-            }
-          },
-          checkpoints: [
-            {
-              afterAttempts: 2,
-              question: 'Which way should the bee face after turning?',
-              options: ['Up', 'Down', 'Right'],
-              correctAnswer: 'Right',
-              feedback: {
-                correct: 'Exactly! Now the bee can move toward the flower.',
-                incorrect: 'Try the turn block and see which way the bee faces!'
-              }
-            }
-          ],
           realWorldConnection: {
-            example: 'Like a toy car that can only drive forward but can turn its wheels!',
-            relatable: 'When you walk to school, you sometimes need to turn at corners.',
-            career: 'Drone pilots control direction and orientation when flying.'
-          },
-          extensions: [
-            {
-              title: '🔄 Turn Practice',
-              description: 'Try reaching the flower using only left turns!',
-              difficulty: 'hard'
-            }
-          ]
+            example: 'Exactly how Roblox characters turn corners!',
+            relatable: 'When you\'re texting and turn your phone, the screen rotates.',
+            career: 'VR developers use this to let you move around virtual worlds.'
+          }
         },
         { 
           id: 'k-l3', 
-          title: '🚀 Space Mission', 
-          description: 'Navigate the asteroid field to reach the base.', 
-          task: 'Avoid the rocks and reach the moon base.', 
+          title: '💥 Free-Fire Map', 
+          description: 'Navigate obstacles like trees, bombs, and buildings.', 
+          task: 'Avoid the obstacles and reach safety.', 
           solutionExplanation: {
-            simple: 'Plan a path around the rocks to reach the moon.',
-            detailed: 'Obstacles block your path. You must think ahead and plan a route around them. This is called PATHFINDING.',
-            conceptual: 'PATHFINDING and PROBLEM-SOLVING: Breaking big problems into smaller steps. First plan, then execute!'
+            simple: 'Plan your route around the obstacles - just like in a battle royale game!',
+            detailed: 'Smart pathfinding is what makes games work. The AI needs to avoid walls, enemies, and hazards. You\'re learning the same algorithm!',
+            conceptual: 'PATHFINDING: Every game AI uses this. From Pokemon to Fortnite, finding safe routes is essential.'
           },
           gridConfig: {
             gridSize: 5,
             startPos: [4, 0],
             goalPos: [0, 4],
             obstacles: [[2,2], [3,1], [1,3]],
-            avatarEmoji: '🚀',
-            goalEmoji: '🌑',
-            backgroundTheme: 'space'
+            avatarEmoji: '🎮',
+            goalEmoji: '🏆',
+            backgroundTheme: 'gaming'
           },
           scaffolds: {
             preLesson: {
               type: 'demo',
-              content: 'Watch the path preview show one possible route',
+              content: 'Watch a battle royale player navigate the map strategically.',
               duration: 20
             },
             duringLesson: {
-              visualAids: ['obstacle-highlight', 'path-preview'],
+              visualAids: ['obstacle-highlight', 'safe-zones'],
               highlightAvailableBlocks: true
             },
             postLesson: {
-              reflection: 'How many different paths could work?',
-              celebration: '🌌 Space mission complete!'
-            }
-          },
-          successCriteria: {
-            minimum: {
-              description: 'Reach the moon base',
-              blocks: 12,
-              hints: 3
-            },
-            proficient: {
-              description: 'Find an efficient path',
-              blocks: 8,
-              hints: 2
-            },
-            advanced: {
-              description: 'Optimal path without hitting rocks',
-              blocks: 8,
-              hints: 0
+              reflection: 'Think about how Fortnite AI avoids your shots - similar logic!',
+              celebration: '🎯 Tactical success! You navigated like a pro!'
             }
           },
           realWorldConnection: {
-            example: 'Like a GPS finding the best route around traffic!',
-            relatable: 'Planning your path through a crowded hallway at school.',
-            career: 'Self-driving cars use pathfinding to navigate streets.'
+            example: 'Exactly like avoiding zones in Fortnite or PUBG!',
+            relatable: 'Walking through a crowded hallway at school - you dodge people!',
+            career: 'Game AI programmers use pathfinding for every enemy NPC.'
           }
         }
       ]
     },
     {
       id: 'kids-m2',
-      title: '🔁 Loop Magic',
+      title: '⚡ Level Up with Loops',
       lessons: [
         { 
           id: 'k-l4', 
-          title: '✨ Flower Power', 
-          description: 'The flower is very far away.', 
-          task: 'Use the "Repeat" block to fly 3 times efficiently.', 
+          title: '🔃 Speed Run', 
+          description: 'Reach the checkpoint 10 times faster.', 
+          task: 'Use the "Repeat" block instead of writing Move 10 times.', 
           solutionExplanation: {
-            simple: 'Instead of using 3 "Move Forward" blocks, use 1 "Repeat 3 Times" block.',
-            detailed: 'Loops let us repeat code without writing it over and over. This is the DRY (Don\'t Repeat Yourself) principle. It saves time and makes code easier to read!',
-            conceptual: 'AUTOMATION and EFFICIENCY: Loops are the foundation of automation. They let computers do repetitive work for us!'
+            simple: 'Instead of 10 Move blocks, use 1 Repeat block!',
+            detailed: 'Loops let you avoid copy-pasting code. Professional developers NEVER repeat themselves - they use loops. It\'s called DRY: Don\'t Repeat Yourself!',
+            conceptual: 'AUTOMATION: This is why AI can do thousands of tasks instantly. Loops automate repetitive work. Apps use loops millions of times per second!'
           },
           gridConfig: {
             gridSize: 5,
             startPos: [2, 0],
             goalPos: [2, 4],
-            avatarEmoji: '🐝',
-            goalEmoji: '🌻',
-            backgroundTheme: 'grass'
+            avatarEmoji: '⚡',
+            goalEmoji: '🏁',
+            backgroundTheme: 'gaming'
           },
           scaffolds: {
             preLesson: {
               type: 'demo',
-              content: 'Watch the magic repeat block work!',
+              content: 'See how adding repeat 10x is WAY faster than clicking 10 times!',
               duration: 15
             },
             duringLesson: {
-              visualAids: ['loop-counter', 'repeat-highlight'],
+              visualAids: ['loop-counter', 'efficiency-meter'],
               highlightAvailableBlocks: true
             },
             postLesson: {
-              reflection: 'Why are loops better than writing the same block many times?',
-              celebration: '🎊 You discovered loops! You\'re a coding wizard!'
+              reflection: 'Every game, app, and website uses loops constantly!',
+              celebration: '⚡ Speed runner! You automated like a pro programmer!'
             }
-          },
-          successCriteria: {
-            minimum: {
-              description: 'Reach the flower',
-              blocks: 5,
-              hints: 3
-            },
-            proficient: {
-              description: 'Use exactly one loop',
-              blocks: 2,
-              hints: 1
-            },
-            advanced: {
-              description: 'Most efficient with loops',
-              blocks: 2,
-              hints: 0
-            }
-          },
-          prerequisites: {
-            concepts: ['sequencing', 'counting'],
-            lessons: ['k-l1', 'k-l2', 'k-l3'],
-            minimumScore: 0.7
           },
           realWorldConnection: {
-            example: 'Like a robot arm repeating the same motion in a factory!',
-            relatable: 'Brushing each tooth - you repeat the same motion for all teeth!',
-            career: 'Game developers use loops to make characters walk and jump.'
+            example: 'YouTube\'s "Play Next" feature loops through videos!',
+            relatable: 'Your Spotify playlist loops through songs!',
+            career: 'Backend developers write loops that process millions of TikTok videos!'
           },
           extensions: [
             {
-              title: '🔁 Loop Challenge',
-              description: 'Can you use loops to make a square?',
+              title: '⏱️ Beat the Clock',
+              description: 'Finish in fewer blocks than before!',
               difficulty: 'medium'
             }
           ]
         },
         {
           id: 'k-l5',
-          title: '⚡ Corner Zoom',
-          description: 'The flower is diagonal across the field.',
-          task: 'Use Repeat blocks to move 3 steps, turn, and move 3 steps again.',
+          title: '🌀 Spiral Parkour',
+          description: 'Navigate a spiral course with loops and turns.',
+          task: 'Use loops to spiral around obstacles and reach the goal.',
           solutionExplanation: {
-            simple: 'Use two loops: one for moving 3 steps, then turn, then another loop for 3 steps.',
-            detailed: 'Combining loops with turns allows efficient movement in 2D space. We can break the journey into segments and loop each segment.',
-            conceptual: 'DECOMPOSITION: Breaking complex problems into smaller, repeatable chunks. A key skill in programming!'
+            simple: 'Repeat: move forward, turn, repeat! Create a spiral shape.',
+            detailed: 'Combining loops with turns creates complex patterns efficiently. This is how games generate terrain and obstacles!',
+            conceptual: 'NESTED LOGIC: Programs within programs. This scales from simple games to massive apps like Discord or Instagram!'
           },
           gridConfig: {
             gridSize: 5,
             startPos: [0, 0],
             goalPos: [3, 3],
-            avatarEmoji: '🐝',
-            goalEmoji: '🌻',
-            backgroundTheme: 'grass'
+            avatarEmoji: '🏃',
+            goalEmoji: '🎯',
+            backgroundTheme: 'gaming'
           },
           scaffolds: {
             preLesson: {
               type: 'demo',
-              content: 'Watch how we can use multiple loops for different parts of the journey',
-              duration: 20
+              content: 'Watch how a spiral is made with repeated turns and moves.',
+              duration: 15
             },
             duringLesson: {
-              visualAids: ['segment-highlight', 'loop-preview'],
+              visualAids: ['spiral-preview', 'loop-counter'],
               highlightAvailableBlocks: true
             },
             postLesson: {
-              reflection: 'How many loops did you use? Could you use more or fewer?',
-              celebration: '🚀 Amazing! You combined loops with turns!'
+              reflection: 'Minecraft terrain is made with nested loops like this!',
+              celebration: '🌀 Parkour master! You created complex patterns!'
+            }
+          },
+          realWorldConnection: {
+            example: 'How Roblox generates obstacle courses!',
+            relatable: 'Spiraling around a parking garage!',
+            career: 'Game level designers build intricate maps this way.'
+          }
+        }
+      ]
+    },
+    {
+      id: 'kids-m3',
+      title: '🧠 Smart Logic (If-Then)',
+      lessons: [
+        {
+          id: 'k-l6',
+          title: '📲 Unlock Phone',
+          description: 'Your phone checks if the password is correct.',
+          task: 'Use an If-Then to check if you reached the checkpoint.',
+          solutionExplanation: {
+            simple: 'If you\'re at the checkpoint, celebrate! If not, try again.',
+            detailed: 'Every app on your phone uses if-then logic: If you tap a button, THEN open the app. If your password is wrong, THEN show an error. This is CONDITIONAL LOGIC.',
+            conceptual: 'DECISION MAKING: Programs make decisions based on what happens. This is what separates apps from just static websites!'
+          },
+          gridConfig: {
+            gridSize: 4,
+            startPos: [0, 0],
+            goalPos: [2, 2],
+            avatarEmoji: '📱',
+            goalEmoji: '✅',
+            backgroundTheme: 'tech'
+          },
+          scaffolds: {
+            preLesson: {
+              type: 'demo',
+              content: 'Watch your phone unlock when the right password is entered.',
+              duration: 15
+            },
+            duringLesson: {
+              visualAids: ['decision-tree', 'yes-no-paths'],
+              highlightAvailableBlocks: true
+            },
+            postLesson: {
+              reflection: 'Instagram checks: if you follow them, show their posts. Otherwise, don\'t!',
+              celebration: '🔓 Logic master! You made smart decisions!'
+            }
+          },
+          realWorldConnection: {
+            example: 'Discord: if friend is online, show green dot!',
+            relatable: 'TikTok: if you like a video, save it!',
+            career: 'App developers write if-then logic thousands of times per app.'
+          }
+        },
+        {
+          id: 'k-l7',
+          title: '⚙️ Settings Logic',
+          description: 'Apps have different settings. Program different responses.',
+          task: 'Check the difficulty level and act differently for each.',
+          solutionExplanation: {
+            simple: 'If Easy, go slow. If Medium, go faster. If Hard, go super fast!',
+            detailed: 'Real apps have multiple conditions. Games check: what difficulty did the player choose? What device are they on? Conditional logic handles all these cases.',
+            conceptual: 'BRANCHING LOGIC: Programs split into different paths based on conditions. This is how apps adapt to YOU!'
+          },
+          gridConfig: {
+            gridSize: 4,
+            startPos: [1, 1],
+            goalPos: [2, 2],
+            avatarEmoji: '⚙️',
+            goalEmoji: '🎮',
+            backgroundTheme: 'tech'
+          },
+          scaffolds: {
+            preLesson: {
+              type: 'demo',
+              content: 'See how Fortnite changes the game based on your difficulty setting!',
+              duration: 15
+            },
+            duringLesson: {
+              visualAids: ['condition-tree', 'settings-menu'],
+              highlightAvailableBlocks: true
+            },
+            postLesson: {
+              reflection: 'Every game lets you pick difficulty using if-then logic!',
+              celebration: '⚙️ Settings expert! You handled multiple conditions!'
+            }
+          },
+          realWorldConnection: {
+            example: 'Netflix recommends different shows based on your watch history!',
+            relatable: 'Your phone acts different if you\'re in airplane mode!',
+            career: 'Game designers use this to balance difficulty for all players.'
+          }
+        }
+      ]
+    },
+    {
+      id: 'kids-m4',
+      title: '🎨 Create & Generate',
+      lessons: [
+        {
+          id: 'k-l8',
+          title: '🎬 Video Effects',
+          description: 'Create a repeating visual pattern like TikTok effects.',
+          task: 'Draw a pulsing color pattern: red, blue, red, blue, red, blue.',
+          solutionExplanation: {
+            simple: 'Use loops to create a repeating pattern - just like filters!',
+            detailed: 'TikTok filters, Snapchat lenses, and Instagram effects use pattern loops. You\'re learning the same technology!',
+            conceptual: 'GENERATIVE ART: Using code to create visual patterns. This is how AI art, game graphics, and filters work!'
+          },
+          gridConfig: {
+            gridSize: 6,
+            startPos: [0, 0],
+            goalPos: [5, 0],
+            avatarEmoji: '🎬',
+            goalEmoji: '✨',
+            backgroundTheme: 'social'
+          },
+          scaffolds: {
+            preLesson: {
+              type: 'demo',
+              content: 'Watch a TikTok filter create repeating effects.',
+              duration: 15
+            },
+            duringLesson: {
+              visualAids: ['pattern-preview', 'effect-timeline'],
+              highlightAvailableBlocks: true
+            },
+            postLesson: {
+              reflection: 'TikTok creators use loops of code to make viral filters!',
+              celebration: '✨ Filter creator! You made visual effects!'
+            }
+          },
+          realWorldConnection: {
+            example: 'TikTok and Snapchat filters use this exact logic!',
+            relatable: 'The loading spinner on Instagram is a loop!',
+            career: 'AR/VR developers create effects like this for metaverse apps.'
+          }
+        },
+        {
+          id: 'k-l9',
+          title: '🤖 AI Character Generator',
+          description: 'Generate a character avatar with code.',
+          task: 'Build a character: body (repeat loop), head, arms, then display.',
+          solutionExplanation: {
+            simple: 'Use loops to build character parts in order - like a constructor!',
+            detailed: 'Games like Roblox and Fortnite use code to generate millions of unique characters. This is procedural generation!',
+            conceptual: 'PROCEDURAL GENERATION: Using code to create unique variations automatically. How AI generates images, characters, and worlds!'
+          },
+          gridConfig: {
+            gridSize: 4,
+            startPos: [0, 3],
+            goalPos: [3, 3],
+            avatarEmoji: '🤖',
+            goalEmoji: '👾',
+            backgroundTheme: 'gaming'
+          },
+          scaffolds: {
+            preLesson: {
+              type: 'demo',
+              content: 'Watch how game characters are built from simple parts.',
+              duration: 15
+            },
+            duringLesson: {
+              visualAids: ['character-builder', 'parts-list'],
+              highlightAvailableBlocks: true
+            },
+            postLesson: {
+              reflection: 'Roblox avatars are generated this way - every one is unique!',
+              celebration: '🤖 You\'re an AI character creator!'
+            }
+          },
+          realWorldConnection: {
+            example: 'Roblox generates millions of unique avatar combinations!',
+            relatable: 'Fortnite lets you build thousands of skin combos!',
+            career: 'AI developers use this for image generation (like DALL-E).'
+          }
+        }
+      ]
+    },
+    {
+      id: 'kids-m5',
+      title: '🎵 Sound & Media',
+      lessons: [
+        {
+          id: 'k-l10',
+          title: '🎧 Playlist Builder',
+          description: 'Build a song sequence like your Spotify playlist.',
+          task: 'Play 4 different sounds/notes in sequence.',
+          solutionExplanation: {
+            simple: 'Play sounds one after another - like songs in a playlist!',
+            detailed: 'Apps like Spotify, Apple Music, and SoundCloud manage audio sequences. Podcasts, audiobooks, and games all use sound sequencing!',
+            conceptual: 'AUDIO PROGRAMMING: Sound is controlled by code just like visuals. Apps manage millions of audio streams simultaneously!'
+          },
+          gridConfig: {
+            gridSize: 4,
+            startPos: [0, 0],
+            goalPos: [3, 0],
+            avatarEmoji: '🎧',
+            goalEmoji: '🎵',
+            backgroundTheme: 'music'
+          },
+          scaffolds: {
+            preLesson: {
+              type: 'demo',
+              content: 'Listen to a Spotify playlist load and play in sequence.',
+              duration: 15
+            },
+            duringLesson: {
+              visualAids: ['playlist-order', 'sound-visualizer'],
+              highlightAvailableBlocks: true
+            },
+            postLesson: {
+              reflection: 'Every song you hear on Spotify is queued with code like this!',
+              celebration: '🎼 Playlist curator! You control audio with code!'
+            }
+          },
+          realWorldConnection: {
+            example: 'Spotify queues songs using sequence logic!',
+            relatable: 'YouTube videos play audio in sync with visuals!',
+            career: 'Audio engineers code music production tools like FL Studio or Ableton.'
+          }
+        }
+      ]
+    },
+    {
+      id: 'kids-m6',
+      title: '🏆 Final Boss: Full Game',
+      lessons: [
+        {
+          id: 'k-l11',
+          title: '🎮 Complete Game Level',
+          description: 'Build a complete game level combining ALL concepts!',
+          task: 'Navigate obstacles (sequences/loops), avoid hazards (conditionals), collect items, and reach victory!',
+          solutionExplanation: {
+            simple: 'Use everything: sequences, loops, turns, conditionals - make a full playable level!',
+            detailed: 'Real games use every concept you\'ve learned. From indie games to AAA titles, the core logic is sequencing, loops, and conditions scaling up!',
+            conceptual: 'INTEGRATION: You\'re not just learning programming - you\'re building the FOUNDATION of modern gaming and apps!'
+          },
+          gridConfig: {
+            gridSize: 6,
+            startPos: [0, 0],
+            goalPos: [5, 5],
+            obstacles: [[2,1], [4,3], [1,4]],
+            items: [[1,1], [3,2], [4,4]],
+            avatarEmoji: '🎮',
+            goalEmoji: '👑',
+            backgroundTheme: 'gaming'
+          },
+          scaffolds: {
+            preLesson: {
+              type: 'demo',
+              content: 'Watch a complete gameplay walkthrough of your new game!',
+              duration: 20
+            },
+            duringLesson: {
+              visualAids: ['full-game-ui', 'score-tracker'],
+              highlightAvailableBlocks: false
+            },
+            postLesson: {
+              reflection: 'Every game you play uses EXACTLY this logic scaled up 1000x.',
+              celebration: '🎉 YOU DID IT! You\'re officially a Game Developer! Ready for the Teen Mode?'
             }
           },
           successCriteria: {
             minimum: {
-              description: 'Reach the flower',
-              blocks: 8,
-              hints: 3
+              description: 'Complete the level',
+              blocks: 20,
+              hints: 5
             },
             proficient: {
-              description: 'Use loops efficiently',
-              blocks: 4,
-              hints: 1
+              description: 'Efficient solution',
+              blocks: 12,
+              hints: 2
             },
             advanced: {
-              description: 'Optimal loop usage',
-              blocks: 4,
+              description: 'Optimal - use every concept smartly',
+              blocks: 12,
               hints: 0
             }
           },
+          prerequisites: {
+            concepts: ['sequencing', 'loops', 'direction', 'conditionals'],
+            lessons: ['k-l1', 'k-l4', 'k-l6'],
+            minimumScore: 0.6
+          },
           realWorldConnection: {
-            example: 'Like a delivery route with multiple repeated segments!',
-            relatable: 'Your morning routine - you repeat certain steps every day!',
-            career: 'Animators use loops for repeated movements in cartoons.'
+            example: 'Fortnite, Roblox, Minecraft - all use this foundation!',
+            relatable: 'Every game you\'ve ever played uses these 4 core concepts!',
+            career: 'Game developers at EA, Ubisoft, Activision code with this daily. You\'re on the same path!'
           }
         }
       ]

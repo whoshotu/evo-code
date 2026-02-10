@@ -5,11 +5,11 @@
 
 # Configuration - EDIT THESE WITH YOUR CREDENTIALS
 FTP_USER="hereisreal"
-FTP_PASS="your_password_here"
+FTP_PASS="123456Aa"
 FTP_HOST="ftp.hereisreal.altervista.org"
 REMOTE_DIR="/public_html/evolve-code"
 
-# Colors for output
+# Colors for outputt
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 RED='\033[0;31m'
@@ -48,24 +48,20 @@ echo ""
 cat > /tmp/deploy.lftp << 'EOF'
 set ssl:verify-certificate no
 set ftp:ssl-allow no
+set ftp:ssl-force no
 set ftp:passive-mode yes
-set net:timeout 30
-set net:max-retries 3
+set net:timeout 60
+set net:max-retries 2
 
 # Connect
+set ftp:ssl-allow no
 open -u USER,PASS HOST
 
 # Upload frontend
 echo "Uploading frontend files..."
 lcd dist
 cd REMOTE_DIR
-mirror -R --parallel=3 --exclude-glob="*.zip" --exclude-glob=".env"
-
-# Upload backend
-echo "Uploading backend..."
-lcd ../backend
-cd REMOTE_DIR/backend
-mirror -R --parallel=3
+mirror -R
 
 bye
 EOF

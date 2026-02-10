@@ -5,111 +5,211 @@ export const KIDS_LEVELS: Record<string, LevelConfig> = {
   'k-l1': {
     id: 'k-l1',
     stage: 'kids',
-    goalText: "Help the Bee fly straight to the flower!",
+    goalText: "Program the game character to reach the finish line!",
     stepHints: [
-      "The flower is 3 steps away.",
-      "You need to use the 'Move Forward' block multiple times.",
-      "Try counting the squares between the Bee and the Flower."
+      "The goal is 3 steps ahead.",
+      "Use 'Move' blocks to walk forward.",
+      "Think of it like pressing the forward button in a game!"
     ],
     commonMistakes: [
       {
         id: 'OVERSHOOT',
-        description: 'Moved too many times',
-        feedbackText: "Whoops! You flew past the flower. Try counting the squares again!"
+        description: 'Moved too far',
+        feedbackText: "Whoops! You walked past the finish line. Count the steps!"
       },
       {
         id: 'UNDERSHOOT',
-        description: 'Stopped short',
-        feedbackText: "Almost there! You need just a few more steps to reach it."
+        description: 'Stopped too early',
+        feedbackText: "Almost! The goal is just a few more steps ahead."
       }
     ],
-    successMessage: "Great job! You learned how to sequence commands!"
+    successMessage: "Level 1 Complete! You learned sequencing - just like real games!"
   },
   'k-l2': {
     id: 'k-l2',
     stage: 'kids',
-    goalText: "The flower is hiding! Walk, Turn, then Walk again.",
+    goalText: "Turn the corner to reach the goal!",
     stepHints: [
-      "The Bee is facing the wrong way to start.",
-      "First walk to the corner, then use a 'Turn' block.",
-      "Make sure you turn towards the flower, not away from it!"
+      "Walk straight first.",
+      "Then use a Turn block to face the goal.",
+      "Finally, walk towards it!"
     ],
     commonMistakes: [
       {
         id: 'WRONG_TURN',
-        description: ' turned left instead of right',
-        feedbackText: "Oh no! You turned the wrong way. Try turning the other direction."
-      },
-      {
-        id: 'EARLY_TURN',
-        description: 'Turned before reaching intersection',
-        feedbackText: "You turned too early! Walk all the way to the corner first."
+        description: 'Turned the wrong direction',
+        feedbackText: "Oops! You turned away from the goal. Try the other direction."
       }
     ],
-    successMessage: "Fantastic! You mastered orientation and turning!"
+    successMessage: "You navigated like a pro! Direction matters in games!"
   },
   'k-l3': {
     id: 'k-l3',
     stage: 'kids',
-    goalText: "Navigate the asteroid field! Don't crash!",
+    goalText: "Navigate the map and avoid obstacles!",
     stepHints: [
-      "Plan your path carefully around the rocks.",
-      "You might need to turn more than once.",
-      "Visualize the path with your finger before dragging blocks."
+      "Plan your route BEFORE you start coding.",
+      "Obstacles block your path - go around them!",
+      "This is like navigating in Fortnite or Roblox!"
     ],
     commonMistakes: [
       {
         id: 'OBSTACLE_HIT',
-        description: 'Crashed into rock',
-        feedbackText: "Crash! That rock is solid. Try to go around it."
-      },
-      {
-        id: 'LOOP_INFINITE',
-        description: 'Stuck in circle',
-        feedbackText: "You seem to be going in circles. Check your turn blocks!"
+        description: 'Hit an obstacle',
+        feedbackText: "Crash! Plan a route around that obstacle!"
       }
     ],
-    successMessage: "Mission Accomplished! You are a master navigator!"
+    successMessage: "Map cleared! You learned pathfinding - used in every game!"
   },
   'k-l4': {
     id: 'k-l4',
     stage: 'kids',
-    goalText: "Use the Magic Loop to fly fast!",
+    goalText: "Use the Speed Repeat block - it's WAY faster!",
     stepHints: [
-      "The flower is far away.",
-      "The Orange 'Repeat' block moves you 3 steps at once!",
-      "You might need to add a normal 'Move' block to finish the journey."
+      "The goal is far away.",
+      "Instead of using Move 10 times, use ONE Repeat block!",
+      "This is how apps automate repetitive work."
     ],
     commonMistakes: [
       {
-        id: 'UNDERSHOOT',
-        description: 'Used only repeat',
-        feedbackText: "You moved 3 steps, but you need 4! Add one more Move."
+        id: 'OVERSHOOT',
+        description: 'Used too many loops',
+        feedbackText: "You moved too far. Adjust your Repeat number or add fewer blocks!"
       }
     ],
-    successMessage: "Speedy! You used a loop to move faster!"
+    successMessage: "Speed runner! Loops are how TikTok plays videos automatically!"
   },
   'k-l5': {
     id: 'k-l5',
     stage: 'kids',
-    goalText: "Zoom to the corner! Use loops for speed.",
+    goalText: "Spiral around obstacles using multiple loops!",
     stepHints: [
-      "First, zoom forward with the Repeat block.",
-      "Then turn towards the flower.",
-      "Zoom again with another Repeat block!"
+      "Repeat: move forward, turn, repeat!",
+      "Create a spiral path with nested loops.",
+      "Minecraft terrain builders use this exact logic!"
     ],
     commonMistakes: [
       {
-        id: 'WRONG_TURN',
-        description: 'Wrong turn',
-        feedbackText: "Check your turn direction!"
-      },
-      {
-        id: 'OVERSHOOT',
-        description: 'Too far',
-        feedbackText: "Did you use too many loops?"
+        id: 'WRONG_DIRECTION',
+        description: 'Spiral in wrong direction',
+        feedbackText: "Check your turn directions!"
       }
     ],
-    successMessage: "Double Loop! You are a coding wizard!"
+    successMessage: "Spiral master! You combined loops - like real game development!"
+  },
+  'k-l6': {
+    id: 'k-l6',
+    stage: 'kids',
+    goalText: "Use smart logic - if you reached the goal, celebrate!",
+    stepHints: [
+      "The Diamond block asks a question: 'Am I at the goal?'",
+      "If YES → celebrate! If NO → keep moving.",
+      "Every phone app uses if-then logic!"
+    ],
+    commonMistakes: [
+      {
+        id: 'WRONG_PATH',
+        description: 'Wrong path in condition',
+        feedbackText: "Make sure your YES path celebrates and your NO path continues!"
+      }
+    ],
+    successMessage: "Smart logic! Discord, Instagram, TikTok all use if-then blocks!"
+  },
+  'k-l7': {
+    id: 'k-l7',
+    stage: 'kids',
+    goalText: "Handle multiple conditions like a real app!",
+    stepHints: [
+      "If the setting is Easy → go slow.",
+      "If it's Medium → go normal speed.",
+      "If it's Hard → go FAST!",
+      "This is how games customize difficulty!"
+    ],
+    commonMistakes: [
+      {
+        id: 'WRONG_ACTION',
+        description: 'Wrong action for condition',
+        feedbackText: "Check which action matches which condition!"
+      }
+    ],
+    successMessage: "Settings master! Apps adapt to user preferences with multi-condition logic!"
+  },
+  'k-l8': {
+    id: 'k-l8',
+    stage: 'kids',
+    goalText: "Paint a repeating color pattern!",
+    stepHints: [
+      "Colors: Red, Blue, Red, Blue, Red, Blue...",
+      "Use a Repeat block to paint the pattern multiple times.",
+      "TikTok filters use this same pattern logic!"
+    ],
+    commonMistakes: [
+      {
+        id: 'WRONG_COLOR',
+        description: 'Wrong color sequence',
+        feedbackText: "Check the pattern - red, blue, red, blue..."
+      }
+    ],
+    successMessage: "Filter creator! Snapchat and TikTok effects generate patterns like this!"
+  },
+  'k-l9': {
+    id: 'k-l9',
+    stage: 'kids',
+    goalText: "Generate a character with procedural code!",
+    stepHints: [
+      "Use loops to build parts: body, head, arms.",
+      "Build them in order - like constructing in Roblox!",
+      "Roblox generates millions of unique avatars this way."
+    ],
+    commonMistakes: [
+      {
+        id: 'WRONG_ORDER',
+        description: 'Parts built in wrong order',
+        feedbackText: "Make sure the parts are built in the correct sequence!"
+      }
+    ],
+    successMessage: "Avatar creator! Roblox and Fortnite use procedural generation like this!"
+  },
+  'k-l10': {
+    id: 'k-l10',
+    stage: 'kids',
+    goalText: "Build a song playlist by sequencing sounds!",
+    stepHints: [
+      "Play 4 different notes/sounds in sequence.",
+      "Arrange them like a Spotify playlist!",
+      "Every music app manages audio sequences like this."
+    ],
+    commonMistakes: [
+      {
+        id: 'NO_SOUND',
+        description: 'Forgot to add sound blocks',
+        feedbackText: "Drag sound blocks into your sequence!"
+      }
+    ],
+    successMessage: "Composer! Spotify, Apple Music, and YouTube Music queue songs with code!"
+  },
+  'k-l11': {
+    id: 'k-l11',
+    stage: 'kids',
+    goalText: "Build a COMPLETE GAME LEVEL using everything!",
+    stepHints: [
+      "Navigate the map (sequences + loops)",
+      "Avoid obstacles (pathfinding)",
+      "Collect items and reach victory (conditionals)",
+      "You\'re coding a real game level!"
+    ],
+    commonMistakes: [
+      {
+        id: 'INEFFICIENT',
+        description: 'Solution uses too many blocks',
+        feedbackText: "Use loops to shorten your code - like professional developers!"
+      },
+      {
+        id: 'OBSTACLE_HIT',
+        description: 'Crashed into obstacle',
+        feedbackText: "Plan your route more carefully!"
+      }
+    ],
+    successMessage: "🎉 GAME LEVEL COMPLETE! You\'re officially a Junior Game Developer! Fortnite, Roblox, and Minecraft use these exact concepts at massive scale!"
   }
 };

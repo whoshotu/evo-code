@@ -42,52 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // Load configuration (API keys stored here)
 require_once __DIR__ . '/../config/config.php';
-// Enable verbose errors for debugging (temporary)
-$VERBOSE_ERRORS = true; // set to false after debugging
-if ($VERBOSE_ERRORS) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
-    // Convert PHP warnings/notices into exceptions so we return JSON
-    set_error_handler(function($severity, $message, $file, $line) {
-        throw new ErrorException($message, 0, $severity, $file, $line);
-    });
-
-    // Exception handler that returns JSON
-    set_exception_handler(function($e) {
-        http_response_code(500);
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => false,
-            'error' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString()
-        ], JSON_PRETTY_PRINT);
-        exit();
-    });
-}
-
-// Quick runtime validation: provide clear error if key/model missing for selected provider
-if (AI_PROVIDER === 'openrouter') {
-    if (empty($OPENROUTER_API_KEY) || strpos($OPENROUTER_API_KEY, 'YOUR_KEY') !== false) {
-        http_response_code(500);
-        echo json_encode([
-            'success' => false,
-            'error' => 'OpenRouter API key is missing or placeholder in backend/config/config.php. Please set $OPENROUTER_API_KEY before calling the proxy.'
-        ]);
-        exit();
-    }
-    if (empty($OPENROUTER_MODEL)) {
-        http_response_code(500);
-        echo json_encode([
-            'success' => false,
-            'error' => 'OpenRouter model is not configured in backend/config/config.php. Please set $OPENROUTER_MODEL to a valid model id.'
-        ]);
-        exit();
-    }
-}
 
 // Get request body
 $input = file_get_contents('php://input');
@@ -144,17 +98,6 @@ try {
 
         case 'generateMission':
             $result = handleGenerateMission($payload, $provider);
-            break;
-
-        // Quick runtime validation endpoint - attempts a tiny OpenRouter request to validate key/model
-        case 'validateKey':
-            if ($provider !== 'openrouter') {
-                throw new Exception('validateKey currently supports OpenRouter only');
-            }
-            $testPrompt = 'Say OK in one word.';
-            // callOpenRouter will throw on error
-            $resp = callOpenRouter($testPrompt, 10);
-            $result = ['validated' => true, 'response' => $resp['text'] ?? ''];
             break;
 
         case 'simulateCode':
@@ -426,9 +369,8 @@ function callHuggingFace($prompt, $maxTokens = 500)
 }
 
 /**
- * Call OpenRouter API via Node proxy
- * Routes through a Node/Express proxy server to bypass hosting restrictions
- * The Node proxy is deployed to Render/Vercel/AWS and forwards to OpenRouter
+ * Call OpenRouter API
+ * OpenRouter provides unified access to multiple AI models
  */
 function callOpenRouter($prompt, $maxTokens = 500)
 {
@@ -438,40 +380,42 @@ function callOpenRouter($prompt, $maxTokens = 500)
         throw new Exception('OpenRouter API key not configured');
     }
 
-    // Node proxy server URL - update this to your deployed proxy
-    // Configured in backend/config/config.php as NODE_PROXY_URL constant
-    // Example: https://openrouter-proxy-abc123.onrender.com
-    $NODE_PROXY_URL = NODE_PROXY_URL ?? 'http://localhost:3000';
+    $url = 'https://openrouter.ai/api/v1/chat/completions';
 
-    // Build OpenRouter-compatible request body
     $data = [
-        'model' => $OPENROUTER_MODEL ?? 'arcee-ai/trinity-large-preview:free',
+        'model' => $OPENROUTER_MODEL ?? 'google/gemini-2.5-flash-lite',
         'messages' => [
             ['role' => 'user', 'content' => $prompt]
         ],
         'max_tokens' => $maxTokens,
-        'temperature' => 0.7
+        'temperature' => 0.7,
+        // Optional: Add metadata for OpenRouter rankings
+        'extra_headers' => [
+            'HTTP-Referer' => $_SERVER['HTTP_REFERER'] ?? 'https://evolvecode.altervista.org',
+            'X-Title' => 'EvolveCode'
+        ]
     ];
 
     $headers = [
-        'Content-Type: application/json'
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $OPENROUTER_API_KEY,
+        'HTTP-Referer: ' . ($_SERVER['HTTP_REFERER'] ?? 'https://evolvecode.altervista.org'),
+        'X-Title: EvolveCode'
     ];
 
-    // Call the Node proxy at /api/ai endpoint
-    $url = rtrim($NODE_PROXY_URL, '/') . '/api/ai';
     $response = makeApiRequest($url, $data, $headers);
 
     if (isset($response['choices'][0]['message']['content'])) {
         return ['text' => $response['choices'][0]['message']['content']];
     }
 
-    // Handle error responses
+    // Handle OpenRouter-specific error format
     if (isset($response['error'])) {
-        $errorMsg = $response['error']['message'] ?? $response['error'];
+        $errorMsg = $response['error']['message'] ?? 'Unknown OpenRouter error';
         throw new Exception('OpenRouter Error: ' . $errorMsg);
     }
 
-    throw new Exception('No response from OpenRouter proxy');
+    throw new Exception('No response from OpenRouter');
 }
 
 // ============================================
